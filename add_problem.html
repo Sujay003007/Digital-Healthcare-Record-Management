@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block title %}Add Problem - {{ worker.name }}{% endblock %}
+{% block content %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+  <h1 class="h3 mb-0 text-primary-custom">Add Problem Record</h1>
+  <a href="{{ url_for('profile', id=worker.id) }}" class="btn btn-health-outline">← Back to Profile</a>
+</div>
+
+<div class="card card-health" style="max-width: 560px;">
+  <div class="card-header-health">New Problem for {{ worker.name }}</div>
+  <div class="card-body">
+    <form method="POST" action="{{ url_for('add_problem', worker_id=worker.id) }}">
+      <div class="mb-3">
+        <label for="application_number" class="form-label">Application number <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="application_number" name="application_number" placeholder="e.g. APP-2025-001" required>
+      </div>
+      <div class="mb-3">
+        <label for="doctor_id" class="form-label">Doctor ID <span class="text-danger">*</span></label>
+        <select class="form-select" id="doctor_id" name="doctor_id" required>
+          <option value="">Select doctor</option>
+          {% for d in doctors %}
+          <option value="{{ d.doctor_id or ('DOC' ~ d.id) }}">{{ d.username }} ({{ d.doctor_id or ('DOC' ~ d.id) }})</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="mb-3">
+        <label for="date" class="form-label">Date <span class="text-danger">*</span></label>
+        <input type="date" class="form-control" id="date" name="date" required>
+      </div>
+      <div class="mb-3">
+        <label for="disease" class="form-label">Disease <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" id="disease" name="disease" placeholder="e.g. Fever, Hypertension" required>
+      </div>
+      <div class="mb-4">
+        <label for="weight" class="form-label">Weight</label>
+        <input type="text" class="form-control" id="weight" name="weight" placeholder="e.g. 70 kg">
+      </div>
+      <button type="submit" class="btn btn-health">Save Problem</button>
+      <a href="{{ url_for('profile', id=worker.id) }}" class="btn btn-secondary ms-2">Cancel</a>
+    </form>
+  </div>
+</div>
+{% endblock %}
